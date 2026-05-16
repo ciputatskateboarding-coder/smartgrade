@@ -1,0 +1,107 @@
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Printing logic yang lebih bersih */
+/* --- CSS UNTUK PDF YANG BERSIH --- */
+@media print {
+    /* 1. Sembunyikan SEMUA elemen kecuali area laporan */
+    nav, 
+    footer, 
+    form, 
+    .no-print,
+    button,
+    .pesan-sukses { 
+        display: none !important; 
+    }
+
+    /* 2. Reset Background dan Margin */
+    body { 
+        background-color: white !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 3. Hilangkan Shadow dan Border Card agar tidak terlihat 'kotak' */
+    main { 
+        max-width: 100% !important; 
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    section {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 4. Percantik Tampilan Tabel di Kertas */
+    table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin-top: 20px;
+    }
+
+    th {
+        background-color: #f8fafc !important; /* Abu-abu sangat muda */
+        color: black !important;
+        border-bottom: 2px solid #000 !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    td {
+        border-bottom: 1px solid #e2e8f0 !important;
+        color: black !important;
+    }
+
+    /* 5. Paksa judul muncul di tengah saat diprint */
+    h2 {
+        display: block !important;
+        text-align: center !important;
+        font-size: 22pt !important;
+        margin-bottom: 30px !important;
+        color: black !important;
+    }
+
+    /* Atur margin kertas */
+    @page {
+        margin: 2cm;
+    }
+}
+
+@media print {
+    /* Menghilangkan semua elemen dengan class no-print */
+    .no-print {
+        display: none !important;
+    }
+
+    /* Mereset tampilan section hasil agar bersih di kertas */
+    section {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body {
+        background-color: white !important;
+    }
+}
+
+/* Glassmorphism effect untuk hover */
+.group:hover .shadow-inner {
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}

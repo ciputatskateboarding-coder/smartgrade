@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartGrade Pro - Advanced Grading System</title>
+    
+    <!-- Framework Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter & Outfit untuk kesan premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Library for Scroll Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-[#f8fafc] min-h-screen pb-20 font-['Inter']">
+
+    <!-- Header Section - Hidden on Print -->
+    <nav class="w-full py-8 px-6 no-print" data-aos="fade-down" data-aos-duration="1000">
+        <div class="max-w-5xl mx-auto text-center">
+            <h1 class="text-5xl md:text-6xl font-['Outfit'] font-extrabold text-slate-900 tracking-tight mb-4">
+                Smart<span class="text-indigo-600">Grade.</span>
+            </h1>
+            <div class="flex items-center justify-center space-x-2 text-slate-500 font-medium bg-white/50 w-fit mx-auto px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+                <span class="flex h-2 w-2 rounded-full bg-green-500"></span>
+                <p>Sistem Normalisasi Nilai Otomatis (Skala 100)</p>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6">
+        
+        <!-- Input Card - Hidden on Print -->
+        <section class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 p-8 md:p-12 mb-12 border border-slate-100 no-print" 
+                 data-aos="fade-up" data-aos-delay="200">
+            
+            <form action="/proses-nilai" method="post" enctype="multipart/form-data" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="group">
+                        <label class="block text-sm font-bold text-slate-700 mb-3 group-focus-within:text-indigo-600 transition-colors">Kunci Jawaban Master</label>
+                        <input type="text" name="kunciJawaban" required placeholder="Contoh: ABCDE..."
+                            class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:border-indigo-500 focus:bg-white transition-all uppercase tracking-[0.3em] font-mono text-lg shadow-inner">
+                    </div>
+
+                    <div class="group">
+                        <label class="block text-sm font-bold text-slate-700 mb-3 group-focus-within:text-indigo-600 transition-colors">Data Excel Siswa (.xlsx)</label>
+                        <div class="relative">
+                            <input type="file" name="fileExcel" accept=".xlsx, .xls" required
+                                class="block w-full text-sm text-slate-400 file:mr-4 file:py-4 file:px-8 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 transition-all cursor-pointer bg-slate-50 border-2 border-slate-100 rounded-2xl">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-slate-900 hover:bg-indigo-600 text-white font-bold py-5 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-indigo-200 transform hover:-translate-y-1 text-lg tracking-wide">
+                    Mulai Kalkulasi Nilai
+                </button>
+            </form>
+        </section>
+
+        <!-- Result Section - Visible on Print (Shadow/Border removed via CSS Print) -->
+        <section th:if="${dataHasil != null}" 
+                 class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 overflow-hidden border border-slate-100"
+                 data-aos="fade-up" data-aos-delay="100">
+            
+            <div class="p-8 border-b border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-50/50">
+                <div>
+                    <h2 class="text-2xl font-['Outfit'] font-bold text-slate-800">Laporan Hasil Ujian</h2>
+                    <p class="text-slate-400 text-sm font-medium no-print">Data dihitung berdasarkan pembobotan Baris 2 Excel</p>
+                </div>
+                <!-- Print Button - Hidden on Print -->
+                <button onclick="window.print()" class="no-print group flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl text-sm font-bold text-white transition-all shadow-lg hover:shadow-indigo-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    <span>Export ke PDF</span>
+                </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-white border-b border-slate-100">
+                            <th class="py-6 px-8 font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400">Nama Lengkap</th>
+                            <th class="py-6 px-4 font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 text-center">Skor PG</th>
+                            <th class="py-6 px-4 font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 text-center">Isian</th>
+                            <th class="py-6 px-4 font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 text-center">Essai</th>
+                            <th class="py-6 px-8 font-bold text-[10px] uppercase tracking-[0.2em] text-indigo-500 text-center">Nilai Final</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        <tr th:each="siswa : ${dataHasil}" class="hover:bg-slate-50/50 transition-colors group">
+                            <td class="py-6 px-8">
+                                <span class="text-slate-800 font-semibold group-hover:text-indigo-600 transition-colors" th:text="${siswa.nama}"></span>
+                            </td>
+                            <td class="py-6 px-4 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <span class="text-emerald-600 font-bold text-base" th:text="${siswa.nilaiPg}"></span>
+                                    <span class="text-[10px] font-bold text-rose-400 uppercase tracking-tighter" 
+                                        th:text="'Salah: ' + ${siswa.salah}"></span>
+                                </div>
+                            </td>
+                            <td class="py-6 px-4 text-center text-slate-500 font-medium" th:text="${siswa.nilaiIsian}"></td>
+                            <td class="py-6 px-4 text-center text-slate-500 font-medium" th:text="${siswa.nilaiEssai}"></td>
+                            <td class="py-6 px-8 text-center">
+                                <span class="inline-block bg-indigo-50 text-indigo-600 px-5 py-2 rounded-full font-extrabold text-sm border border-indigo-100 shadow-sm" 
+                                    th:text="${siswa.totalNilai}"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer - Hidden on Print -->
+    <footer class="mt-12 text-center text-slate-400 text-xs font-medium no-print">
+        <p>&copy; 2024 SmartGrade Pro &bull; Automated Normalization Engine</p>
+    </footer>
+
+    <!-- Script AOS Initialization -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        once: true,
+        easing: 'ease-out-quart',
+        duration: 800
+      });
+    </script>
+</body>
+</html>
