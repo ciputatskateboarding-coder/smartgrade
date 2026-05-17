@@ -1,4 +1,6 @@
-/* Custom Scrollbar */
+/* ==========================================================================
+   1. CUSTOM SCROLLBAR (Tampilan Web)
+   ========================================================================== */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -13,27 +15,44 @@
     background: #94a3b8;
 }
 
-/* Printing logic yang lebih bersih */
-/* --- CSS UNTUK PDF YANG BERSIH --- */
+/* ==========================================================================
+   2. INTERAKSI UI (Hover Effect)
+   ========================================================================== */
+.group:hover .shadow-inner {
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================================================
+   3. LOGIKA CETAK PDF (Hanya Tabel Laporan yang Lolos)
+   ========================================================================== */
 @media print {
-    /* 1. Sembunyikan SEMUA elemen kecuali area laporan */
+    /* Sembunyikan paksa semua elemen navigasi, form, tombol, dan footer */
     nav, 
     footer, 
     form, 
-    .no-print,
-    button,
-    .pesan-sukses { 
+    button, 
+    .no-print, 
+    .pesan-sukses,
+    section:first-of-type { 
         display: none !important; 
+        visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
-    /* 2. Reset Background dan Margin */
-    body { 
+    /* Reset total background halaman agar putih bersih */
+    html, body { 
+        background: white !important;
         background-color: white !important;
-        margin: 0;
-        padding: 0;
+        color: black !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
     }
 
-    /* 3. Hilangkan Shadow dan Border Card agar tidak terlihat 'kotak' */
+    /* Maksimalkan area penampung tabel */
     main { 
         max-width: 100% !important; 
         width: 100% !important;
@@ -41,67 +60,75 @@
         margin: 0 !important;
     }
 
-    section {
+    /* Hilangkan struktur kotak/card, shadow, dan border pembungkus */
+    section, .bg-white {
         box-shadow: none !important;
         border: none !important;
+        background: transparent !important;
+        background-color: transparent !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
-    /* 4. Percantik Tampilan Tabel di Kertas */
+    /* Sembunyikan deskripsi kecil di bawah judul laporan saat diprint */
+    section p.text-slate-400 {
+        display: none !important;
+    }
+
+    /* Format Judul Laporan agar rapi di tengah kertas PDF */
+    h2 {
+        display: block !important;
+        text-align: center !important;
+        font-size: 24pt !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: bold !important;
+        margin-top: 10px !important;
+        margin-bottom: 30px !important;
+        color: black !important;
+    }
+
+    /* Pengaturan Struktur Tabel untuk Kertas Cetak */
     table {
         width: 100% !important;
         border-collapse: collapse !important;
-        margin-top: 20px;
+        margin-top: 10px !important;
     }
 
     th {
-        background-color: #f8fafc !important; /* Abu-abu sangat muda */
+        background-color: #f8fafc !important;
         color: black !important;
-        border-bottom: 2px solid #000 !important;
-        -webkit-print-color-adjust: exact;
+        font-weight: bold !important;
+        border-bottom: 2px solid #000000 !important;
+        padding: 12px 8px !important;
     }
 
     td {
         border-bottom: 1px solid #e2e8f0 !important;
         color: black !important;
+        padding: 14px 8px !important;
     }
 
-    /* 5. Paksa judul muncul di tengah saat diprint */
-    h2 {
-        display: block !important;
-        text-align: center !important;
-        font-size: 22pt !important;
-        margin-bottom: 30px !important;
-        color: black !important;
+    /* Paksa teks skor 'Benar' dan 'Salah' agar tercetak berwarna */
+    .text-emerald-600 {
+        color: #059669 !important;
+    }
+    .text-rose-400 {
+        color: #f43f5e !important;
     }
 
-    /* Atur margin kertas */
-    @page {
-        margin: 2cm;
-    }
-}
-
-@media print {
-    /* Menghilangkan semua elemen dengan class no-print */
-    .no-print {
-        display: none !important;
-    }
-
-    /* Mereset tampilan section hasil agar bersih di kertas */
-    section {
-        box-shadow: none !important;
+    /* Format Badge Nilai Akhir agar tidak berbentuk kotak aneh di kertas */
+    .inline-block.bg-indigo-50 {
+        background: none !important;
+        background-color: transparent !important;
         border: none !important;
-        margin: 0 !important;
+        color: #4f46e5 !important;
         padding: 0 !important;
+        font-size: 12pt !important;
     }
 
-    body {
-        background-color: white !important;
+    /* Setelan Margin Kertas Potret */
+    @page {
+        size: portrait;
+        margin: 1.5cm 2cm 1.5cm 2cm;
     }
-}
-
-/* Glassmorphism effect untuk hover */
-.group:hover .shadow-inner {
-    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
 }
