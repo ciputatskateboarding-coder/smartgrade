@@ -1,26 +1,34 @@
-# 1. Tahap Build (Menggunakan Maven berbasis Java 21 yang dijamin ada di server)
-FROM maven:3.9.6-eclipse-temurin-21 AS build
+# Gunakan base image Ubuntu Noble dengan Java 26 JDK resmi
+FROM eclipse-temurin:26-jdk-noble
+
+# Install Maven secara manual di dalam sistem
+RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
+
+# Atur lingkungan kerja
 WORKDIR /app
+
+# Ambil dependensi proyek terlebih dahulu agar build cepat
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
+
+# Copy seluruh source code
 COPY src ./src
+
+# Kompilasi langsung di lingkungan Java 26
 RUN mvn clean package -DskipTests
 
-# 2. Tahap Runtime (Tetap dijalankan menggunakan Java 26 sesuai kebutuhan kodemu)
-FROM eclipse-temurin:26-jre-noble
+# Pindahkan file .jar hasil build (Dilakukan saat masih menjadi ROOT agar tidak Permission Denied)
+RUN cp target/*.jar app.jar
 
-# Buat user non-root khusus untuk keamanan Hugging Face
-RUN useradd -m -u 1000 user
-USER user
+# SYARAT UTMAK HUGGING FACE: Ubah hak milik folder ke user 1000
+RUN chown -R 1000:1000 /app
+
+# Baru kita pindah ke user 1000 di paling bawah
+USER 1000
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
 
-WORKDIR /app
-
-# Copy hasil build .jar dari tahap 1 ke tahap 2
-COPY --from=build --chown=user:user /app/target/*.jar app.jar
-
-# Port default Hugging Face
+# Setup Port Hugging Face
 ENV PORT=7860
 EXPOSE 7860
 
