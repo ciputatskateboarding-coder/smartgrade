@@ -17,108 +17,673 @@
     <!-- External CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body class="bg-[#f8fafc] min-h-screen pb-20 font-['Inter']">
+<body class="relative bg-[#f8fafc] min-h-screen pb-20 font-['Inter'] overflow-x-hidden">
 
-    <!-- Header Section - Hidden on Print -->
-    <nav class="w-full py-8 px-6 no-print" data-aos="fade-down" data-aos-duration="1000">
-        <div class="max-w-5xl mx-auto text-center">
-            <h1 class="text-5xl md:text-6xl font-['Outfit'] font-extrabold text-slate-900 tracking-tight mb-4">
-                Smart<span class="text-indigo-600">Grade.</span>
-            </h1>
-            <div class="flex items-center justify-center space-x-2 text-slate-500 font-medium bg-white/50 w-fit mx-auto px-4 py-2 rounded-full border border-slate-200 shadow-sm">
-                <span class="flex h-2 w-2 rounded-full bg-green-500"></span>
-                <p>Sistem Normalisasi Nilai Otomatis (Skala 100)</p>
-            </div>
+    <!-- ==========================================================================
+         PREMIUM BACKGROUND
+    =========================================================================== -->
+    
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+
+        <div class="absolute top-[-120px] left-[-120px] w-[320px] h-[320px] 
+                    bg-indigo-300/30 rounded-full blur-3xl">
         </div>
+
+        <div class="absolute top-[20%] right-[-100px] w-[300px] h-[300px] 
+                    bg-violet-300/20 rounded-full blur-3xl">
+        </div>
+
+        <div class="absolute bottom-[-120px] left-[30%] w-[280px] h-[280px] 
+                    bg-sky-300/20 rounded-full blur-3xl">
+        </div>
+
+    </div>
+
+    <!-- ==========================================================================
+         HEADER SECTION
+    =========================================================================== -->
+
+    <nav class="w-full pt-10 pb-6 px-6 no-print"
+         data-aos="fade-down"
+         data-aos-duration="1000">
+
+        <div class="max-w-5xl mx-auto text-center relative">
+
+            <!-- Main Title -->
+            <h1 class="text-5xl md:text-7xl 
+                       font-['Outfit'] 
+                       font-extrabold 
+                       text-slate-900 
+                       tracking-tight 
+                       mb-6 
+                       leading-tight">
+
+                Smart<span class="text-indigo-600">Grade.</span>
+
+            </h1>
+
+            <!-- Subtitle -->
+            <div class="flex items-center justify-center space-x-2 
+                        text-slate-500 
+                        font-medium 
+                        bg-white/70 
+                        backdrop-blur-xl 
+                        w-fit mx-auto 
+                        px-5 py-3 
+                        rounded-full 
+                        border border-white/60 
+                        shadow-lg">
+
+                <span class="flex h-2 w-2 rounded-full bg-green-500"></span>
+
+                <p>
+                    Sistem Normalisasi Nilai dan Pengecekan PG Otomatis
+                </p>
+
+            </div>
+
+        </div>
+
     </nav>
 
     <main class="max-w-6xl mx-auto px-6">
         
         <!-- Input Card - Hidden on Print -->
-        <section class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 p-8 md:p-12 mb-12 border border-slate-100 no-print" 
-                 data-aos="fade-up" data-aos-delay="200">
-            
-            <form action="/proses-nilai" method="post" enctype="multipart/form-data" class="space-y-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                    <div class="group">
-                        <label class="block text-sm font-bold text-slate-700 mb-3 group-focus-within:text-indigo-600 transition-colors">Kunci Jawaban Master</label>
-                        <input type="text" name="kunciJawaban" required placeholder="Contoh: ABCDE..."
-                            class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:outline-none focus:border-indigo-500 focus:bg-white transition-all uppercase tracking-[0.3em] font-mono text-lg shadow-inner">
+       <section class="relative 
+                bg-white/70 
+                backdrop-blur-2xl 
+                rounded-[2.5rem] 
+                shadow-[0_20px_60px_rgba(15,23,42,0.08)] 
+                p-8 md:p-12 
+                mb-12 
+                border border-white/60 
+                overflow-hidden 
+                no-print"
+         
+         data-aos="fade-up"
+         data-aos-delay="200">
+
+    <!-- Decorative Gradient -->
+    <div class="absolute top-0 right-0 w-72 h-72 
+                bg-indigo-200/30 rounded-full blur-3xl">
+    </div>
+
+    <div class="absolute bottom-[-100px] left-[-100px] w-72 h-72 
+                bg-sky-200/20 rounded-full blur-3xl">
+    </div>
+
+    <div class="relative z-10">
+
+        <!-- Section Heading -->
+        <div class="mb-10">
+
+            <div class="inline-flex items-center gap-2 
+                        bg-indigo-50 
+                        text-indigo-600 
+                        px-4 py-2 
+                        rounded-full 
+                        text-sm 
+                        font-semibold 
+                        mb-4">
+
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+                Academic Processing
+
+            </div>
+
+            <h2 class="text-3xl md:text-4xl 
+                       font-['Outfit'] 
+                       font-extrabold 
+                       text-slate-900 
+                       mb-3">
+
+                Mulai Proses Penilaian
+
+            </h2>
+
+            <p class="text-slate-500 max-w-2xl leading-relaxed">
+
+                Upload file jawaban siswa dan sistem akan secara otomatis 
+                melakukan normalisasi nilai, pengecekan pilihan ganda, 
+                serta kalkulasi hasil akhir secara cepat dan akurat.
+
+            </p>
+
+        </div>
+
+        <!-- Form -->
+        <form id="gradingForm"
+                action="/proses-nilai"
+              method="post"
+              enctype="multipart/form-data"
+              class="space-y-8">
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Kunci Jawaban -->
+                <div class="group">
+
+                    <label class="block text-sm font-bold 
+                                text-slate-700 
+                                mb-3 
+                                group-focus-within:text-indigo-600 
+                                transition-colors">
+
+                        Kunci Jawaban
+
+                    </label>
+
+                    <div class="relative">
+
+                        <input type="text"
+                               name="kunciJawaban"
+                               required
+                               placeholder="Contoh: ABCDE..."
+
+                               class="w-full px-6 py-5 
+                                      bg-white/70 
+                                      backdrop-blur-xl 
+                                      border border-slate-200 
+                                      rounded-2xl 
+                                      focus:outline-none 
+                                      focus:border-indigo-500 
+                                      focus:ring-4 
+                                      focus:ring-indigo-100 
+                                      transition-all 
+                                      uppercase 
+                                      tracking-[0.3em] 
+                                      font-mono 
+                                      text-lg 
+                                      text-slate-800 
+                                      shadow-sm">
+
                     </div>
 
-                    <div class="group">
-                        <label class="block text-sm font-bold text-slate-700 mb-3 group-focus-within:text-indigo-600 transition-colors">Data Excel Siswa (.xlsx)</label>
-                        <div class="relative">
-                            <input type="file" name="fileExcel" accept=".xlsx, .xls" required
-                                class="block w-full text-sm text-slate-400 file:mr-4 file:py-4 file:px-8 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 transition-all cursor-pointer bg-slate-50 border-2 border-slate-100 rounded-2xl">
-                        </div>
-                    </div>
                 </div>
 
-                <button type="submit" class="w-full bg-slate-900 hover:bg-indigo-600 text-white font-bold py-5 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-indigo-200 transform hover:-translate-y-1 text-lg tracking-wide">
+                <!-- Upload Excel -->
+                <div class="group">
+
+                    <label class="block text-sm font-bold 
+                                text-slate-700 
+                                mb-3 
+                                group-focus-within:text-indigo-600 
+                                transition-colors">
+
+                        Data Excel Siswa (.xlsx)
+
+                    </label>
+
+                    <input type="file"
+                           name="fileExcel"
+                           accept=".xlsx, .xls"
+                           required
+
+                           class="block w-full text-sm text-slate-500
+                                  file:mr-4
+                                  file:py-4
+                                  file:px-6
+                                  file:rounded-xl
+                                  file:border-0
+                                  file:text-sm
+                                  file:font-bold
+                                  file:bg-indigo-600
+                                  file:text-white
+                                  hover:file:bg-indigo-700
+                                  file:transition-all
+                                  file:shadow-lg
+                                  cursor-pointer
+                                  bg-white/70
+                                  backdrop-blur-xl
+                                  border border-slate-200
+                                  rounded-2xl
+                                  p-2">
+
+                </div>
+
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+
+                    class="group relative overflow-hidden 
+                           w-full 
+                           bg-slate-900 
+                           hover:bg-indigo-600 
+                           text-white 
+                           font-bold 
+                           py-5 
+                           rounded-2xl 
+                           transition-all 
+                           duration-500 
+                           shadow-[0_15px_40px_rgba(79,70,229,0.25)] 
+                           hover:shadow-[0_20px_50px_rgba(79,70,229,0.35)] 
+                           transform hover:-translate-y-1 
+                           text-lg 
+                           tracking-wide">
+
+                <span class="relative z-10 flex items-center justify-center gap-3">
+
                     Mulai Kalkulasi Nilai
-                </button>
-            </form>
-        </section>
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor">
+
+                        <path stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M13 7l5 5m0 0l-5 5m5-5H6" />
+
+                    </svg>
+
+                </span>
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
 
         <!-- Result Section - Visible on Print (Shadow/Border removed via CSS Print) -->
-        <section th:if="${dataHasil != null}" 
-                 class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 overflow-hidden border border-slate-100"
-                 data-aos="fade-up" data-aos-delay="100">
-            
-            <div class="p-8 border-b border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-50/50">
-                <div>
-                    <h2 class="text-2xl font-['Outfit'] font-bold text-slate-800">Laporan Hasil Ujian</h2>
-                    <p class="text-slate-400 text-sm font-medium no-print">Data dihitung berdasarkan pembobotan Baris 2 Excel</p>
+        <section th:if="${dataHasil != null}"
+
+         class="relative 
+                bg-white/75 
+                backdrop-blur-2xl 
+                rounded-[2.5rem] 
+                shadow-[0_20px_60px_rgba(15,23,42,0.08)] 
+                overflow-hidden 
+                border border-white/60"
+
+         data-aos="fade-up"
+         data-aos-delay="100">
+
+    <!-- Decorative Blur -->
+    <div class="absolute top-[-80px] right-[-80px] w-72 h-72 
+                bg-indigo-200/20 rounded-full blur-3xl">
+    </div>
+
+    <div class="relative z-10">
+
+        <!-- Header -->
+        <div class="p-8 border-b border-slate-100 
+                    flex flex-col md:flex-row 
+                    justify-between items-center 
+                    gap-5 bg-white/50 backdrop-blur-xl">
+
+            <div>
+
+                <div class="inline-flex items-center gap-2 
+                            bg-emerald-50 
+                            text-emerald-600 
+                            px-4 py-2 
+                            rounded-full 
+                            text-sm 
+                            font-semibold 
+                            mb-4">
+
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    Hasil Berhasil Diproses
+
                 </div>
-                <!-- Print Button - Hidden on Print -->
-                <button onclick="window.print()" class="no-print group flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl text-sm font-bold text-white transition-all shadow-lg hover:shadow-indigo-200">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                    </svg>
-                    <span>Export ke PDF</span>
-                </button>
+
+                <h2 class="text-3xl 
+                           font-['Outfit'] 
+                           font-extrabold 
+                           text-slate-900">
+
+                    Laporan Hasil Ujian
+
+                </h2>
+
+                <p class="text-slate-400 text-sm font-medium mt-2 no-print">
+
+                    Sistem telah melakukan kalkulasi nilai secara otomatis 
+                    berdasarkan pembobotan dan jawaban siswa.
+
+                </p>
+
             </div>
+
+            <!-- Export Button -->
+            <button onclick="window.print()"
+
+                    class="no-print group flex items-center gap-3 
+                           bg-indigo-600 hover:bg-indigo-700 
+                           px-6 py-4 rounded-2xl 
+                           text-sm font-bold text-white 
+                           transition-all 
+                           shadow-[0_10px_30px_rgba(79,70,229,0.25)] 
+                           hover:shadow-[0_15px_40px_rgba(79,70,229,0.35)] 
+                           hover:-translate-y-1">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="h-5 w-5"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+
+                </svg>
+
+                <span>Export PDF</span>
+
+            </button>
+
+        </div>
+        <!-- ==========================================================================
+     DASHBOARD STATISTICS
+========================================================================== -->
+
+<div class="grid grid-cols-1 md:grid-cols-4 gap-5 p-8">
+
+    <!-- Total Siswa -->
+    <div class="bg-white/70 backdrop-blur-xl 
+                border border-white/60 
+                rounded-3xl p-6 shadow-lg">
+
+        <div class="flex items-center justify-between mb-4">
+
+            <div class="w-14 h-14 rounded-2xl 
+                        bg-indigo-100 
+                        flex items-center justify-center">
+
+                <span class="text-2xl">👨‍🎓</span>
+
+            </div>
+
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">
+                Total
+            </span>
+
+        </div>
+
+        <h3 class="text-3xl font-extrabold text-slate-800"
+            th:text="${#lists.size(dataHasil)}">
+        </h3>
+
+        <p class="text-slate-500 mt-2 text-sm">
+            Total peserta ujian
+        </p>
+
+    </div>
+
+    <!-- Nilai Tertinggi -->
+    <div class="bg-white/70 backdrop-blur-xl 
+                border border-white/60 
+                rounded-3xl p-6 shadow-lg flex flex-col justify-between">
+
+        <div>
+            <div class="flex items-center justify-between mb-4">
+
+                <div class="w-14 h-14 rounded-2xl 
+                            bg-emerald-100 
+                            flex items-center justify-center">
+
+                    <span class="text-2xl">🏆</span>
+
+                </div>
+
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">
+                    Highest
+                </span>
+
+            </div>
+
+            <h3 id="highestScore"
+                class="text-3xl font-extrabold text-emerald-600">
+                -
+            </h3>
             
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="bg-white border-b border-slate-100">
-                            <th class="py-6 px-8 font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400">Nama Lengkap</th>
-                            <th class="py-6 px-4 font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 text-center">Skor PG</th>
-                            <th class="py-6 px-4 font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 text-center">Isian</th>
-                            <th class="py-6 px-4 font-bold text-[10px] uppercase tracking-[0.2em] text-slate-400 text-center">Essai</th>
-                            <th class="py-6 px-8 font-bold text-[10px] uppercase tracking-[0.2em] text-indigo-500 text-center">Nilai Final</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50">
-                        <tr th:each="siswa : ${dataHasil}" class="hover:bg-slate-50/50 transition-colors group">
-                            <td class="py-6 px-8">
-                                <span class="text-slate-800 font-semibold group-hover:text-indigo-600 transition-colors" th:text="${siswa.nama}"></span>
-                            </td>
-                            <td class="py-6 px-4 text-center">
-                                <div class="flex flex-col items-center justify-center">
-                                    <span class="text-emerald-600 font-bold text-base" th:text="${siswa.nilaiPg}"></span>
-                                    <span class="text-[10px] font-bold text-rose-400 uppercase tracking-tighter" 
-                                        th:text="'Salah: ' + ${siswa.salah}"></span>
-                                </div>
-                            </td>
-                            <td class="py-6 px-4 text-center text-slate-500 font-medium" th:text="${siswa.nilaiIsian}"></td>
-                            <td class="py-6 px-4 text-center text-slate-500 font-medium" th:text="${siswa.nilaiEssai}"></td>
-                            <td class="py-6 px-8 text-center">
-                                <span class="inline-block bg-indigo-50 text-indigo-600 px-5 py-2 rounded-full font-extrabold text-sm border border-indigo-100 shadow-sm" 
-                                    th:text="${siswa.totalNilai}"></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <!-- Elemen Tambahan untuk Menampilkan Nama Siswa -->
+            <h4 id="highestStudentName" class="text-base font-bold text-slate-700 mt-1 truncate">
+                -
+            </h4>
+        </div>
+
+        <p class="text-slate-500 mt-2 text-sm">
+            Nilai tertinggi siswa
+        </p>
+
+    </div>
+
+    <!-- Rata-rata -->
+    <div class="bg-white/70 backdrop-blur-xl 
+                border border-white/60 
+                rounded-3xl p-6 shadow-lg">
+
+        <div class="flex items-center justify-between mb-4">
+
+            <div class="w-14 h-14 rounded-2xl 
+                        bg-violet-100 
+                        flex items-center justify-center">
+
+                <span class="text-2xl">📊</span>
+
             </div>
-        </section>
+
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">
+                Average
+            </span>
+
+        </div>
+
+        <h3 id="averageScore"
+            class="text-3xl font-extrabold text-violet-600">
+            -
+        </h3>
+
+        <p class="text-slate-500 mt-2 text-sm">
+            Rata-rata nilai kelas
+        </p>
+
+    </div>
+
+    <!-- Status -->
+    <div class="bg-white/70 backdrop-blur-xl 
+                border border-white/60 
+                rounded-3xl p-6 shadow-lg">
+
+        <div class="flex items-center justify-between mb-4">
+
+            <div class="w-14 h-14 rounded-2xl 
+                        bg-sky-100 
+                        flex items-center justify-center">
+
+                <span class="text-2xl">⚡</span>
+
+            </div>
+
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">
+                System
+            </span>
+
+        </div>
+
+        <h3 class="text-2xl font-extrabold text-sky-600">
+            Online
+        </h3>
+
+        <p class="text-slate-500 mt-2 text-sm">
+            Sistem berjalan normal
+        </p>
+
+    </div>
+
+</div>
+        <!-- Table -->
+        <div class="overflow-x-auto">
+
+            <table class="w-full text-left">
+
+                <thead class="sticky top-0 z-10">
+
+                    <tr class="bg-slate-50/80 backdrop-blur-xl border-b border-slate-100">
+
+                        <th class="py-5 px-8 font-bold text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                            Nama Lengkap
+                        </th>
+
+                        <th class="py-5 px-4 font-bold text-[11px] uppercase tracking-[0.2em] text-center text-slate-400">
+                            Skor PG
+                        </th>
+
+                        <th class="py-5 px-4 font-bold text-[11px] uppercase tracking-[0.2em] text-center text-slate-400">
+                            Isian
+                        </th>
+
+                        <th class="py-5 px-4 font-bold text-[11px] uppercase tracking-[0.2em] text-center text-slate-400">
+                            Essai
+                        </th>
+
+                        <th class="py-5 px-8 font-bold text-[11px] uppercase tracking-[0.2em] text-center text-indigo-500">
+                            Nilai Akhir
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody class="divide-y divide-slate-100">
+
+                    <tr th:each="siswa : ${dataHasil}"
+
+                        class="group hover:bg-indigo-50/40 
+                               transition-all duration-300">
+
+                        <!-- Nama -->
+                        <td class="py-6 px-8">
+
+                            <div class="flex items-center gap-4">
+
+                                <div class="w-12 h-12 rounded-2xl 
+                                            bg-indigo-100 
+                                            flex items-center justify-center 
+                                            text-indigo-600 
+                                            font-bold shadow-sm">
+
+                                    <span th:text="${#strings.substring(siswa.nama,0,1)}"></span>
+
+                                </div>
+
+                                <div>
+
+                                    <p class="font-bold text-slate-800 
+                                            group-hover:text-indigo-600 
+                                            transition-colors"
+
+                                       th:text="${siswa.nama}">
+                                    </p>
+
+                                    <p class="text-sm text-slate-400">
+                                        Peserta Ujian
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <!-- PG -->
+                        <td class="py-6 px-4 text-center">
+
+                            <div class="flex flex-col items-center justify-center">
+
+                                <span class="text-emerald-600 
+                                            font-extrabold text-lg"
+
+                                      th:text="${siswa.nilaiPg}">
+                                </span>
+
+                                <span class="text-[11px] 
+                                            font-bold 
+                                            text-rose-400 
+                                            uppercase tracking-wide"
+
+                                      th:text="'Salah: ' + ${siswa.salah}">
+                                </span>
+
+                            </div>
+
+                        </td>
+
+                        <!-- Isian -->
+                        <td class="py-6 px-4 text-center">
+
+                            <span class="inline-flex items-center justify-center 
+                                        bg-slate-100 
+                                        text-slate-700 
+                                        px-4 py-2 
+                                        rounded-xl 
+                                        font-semibold 
+                                        min-w-[70px]"
+
+                                  th:text="${siswa.nilaiIsian}">
+                            </span>
+
+                        </td>
+
+                        <!-- Essai -->
+                        <td class="py-6 px-4 text-center">
+
+                            <span class="inline-flex items-center justify-center 
+                                        bg-slate-100 
+                                        text-slate-700 
+                                        px-4 py-2 
+                                        rounded-xl 
+                                        font-semibold 
+                                        min-w-[70px]"
+
+                                  th:text="${siswa.nilaiEssai}">
+                            </span>
+
+                        </td>
+
+                        <!-- Total -->
+                        <td class="py-6 px-8 text-center">
+
+                            <span class="inline-flex items-center justify-center 
+                                        bg-gradient-to-r 
+                                        from-indigo-500 
+                                        to-violet-500 
+                                        text-white 
+                                        px-5 py-3 
+                                        rounded-2xl 
+                                        font-extrabold 
+                                        shadow-lg 
+                                        min-w-[90px]"
+
+                                  th:text="${siswa.totalNilai}">
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
     </main>
 
     <!-- Footer - Hidden on Print -->
     <footer class="mt-12 text-center text-slate-400 text-xs font-medium no-print">
-        <p>&copy; 2024 SmartGrade Pro &bull; Automated Normalization Engine</p>
+        <p>&copy; 2026 SmartGrade Pro &bull; Automated Normalization by-rifky fadillah</p>
     </footer>
 
     <!-- Script AOS Initialization -->
@@ -130,5 +695,187 @@
         duration: 800
       });
     </script>
+    <!-- ==========================================================================
+     LOADING OVERLAY
+========================================================================== -->
+
+<div id="loadingOverlay"
+
+     class="fixed inset-0 z-[9999] 
+            hidden 
+            items-center justify-center 
+            bg-slate-900/40 
+            backdrop-blur-md">
+
+    <div class="bg-white rounded-[2rem] p-10 shadow-2xl 
+                flex flex-col items-center max-w-sm mx-6">
+
+        <!-- Spinner -->
+        <div class="relative w-20 h-20 mb-6">
+
+            <div class="absolute inset-0 rounded-full 
+                        border-4 border-indigo-100">
+            </div>
+
+            <div class="absolute inset-0 rounded-full 
+                        border-4 border-indigo-600 
+                        border-t-transparent 
+                        animate-spin">
+            </div>
+
+        </div>
+
+        <h3 class="text-2xl font-bold text-slate-800 mb-2">
+            Processing Data
+        </h3>
+
+        <p class="text-slate-500 text-center leading-relaxed">
+
+            Sistem sedang melakukan pengecekan jawaban, 
+            normalisasi nilai, dan kalkulasi hasil akhir.
+
+        </p>
+
+    </div>
+
+</div>
+<!-- ==========================================================================
+     SUCCESS TOAST
+========================================================================== -->
+
+<div id="successToast"
+
+     class="fixed top-6 right-6 z-[9999]
+            translate-x-[150%]
+            transition-all duration-700">
+
+    <div class="bg-white border border-emerald-100 
+                shadow-2xl rounded-2xl p-5 
+                flex items-start gap-4 min-w-[320px]">
+
+        <div class="w-12 h-12 rounded-2xl 
+                    bg-emerald-100 
+                    flex items-center justify-center 
+                    text-emerald-600">
+
+            ✓
+
+        </div>
+
+        <div>
+
+            <h4 class="font-bold text-slate-800 mb-1">
+                Berhasil Diproses
+            </h4>
+
+            <p class="text-sm text-slate-500 leading-relaxed">
+
+                Data siswa berhasil dihitung dan laporan nilai siap digunakan.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+        <script>
+
+                // ==========================================================================
+    // DASHBOARD ANALYTICS
+    // ==========================================================================
+
+    window.addEventListener('load', () => {
+
+        const rows = document.querySelectorAll('tbody tr');
+
+        if (rows.length > 0) {
+
+            let highestScore = -Infinity;
+            let highestName = "-";
+            let totalScoreSum = 0;
+            let count = 0;
+
+            rows.forEach(row => {
+                // Ambil elemen nilai akhir (kolom terakhir) dan elemen nama (kolom pertama)
+                const scoreEl = row.querySelector('td:last-child span');
+                const nameEl = row.querySelector('td:first-child p');
+
+                if (scoreEl) {
+                    const scoreValue = parseFloat(scoreEl.textContent);
+                    if (!isNaN(scoreValue)) {
+                        totalScoreSum += scoreValue;
+                        count++;
+
+                        // Mencari kecocokan nilai tertinggi sekaligus mengikat namanya
+                        if (scoreValue > highestScore) {
+                            highestScore = scoreValue;
+                            highestName = nameEl ? nameEl.textContent.trim() : "-";
+                        }
+                    }
+                }
+            });
+
+            if (count > 0) {
+                // Tampilkan nilai tertinggi dan nama siswanya ke UI
+                document.getElementById('highestScore').textContent = highestScore;
+                document.getElementById('highestStudentName').textContent = highestName;
+
+                // Tampilkan rata-rata nilai kelas
+                document.getElementById('averageScore').textContent =
+                    (totalScoreSum / count).toFixed(1);
+            }
+
+        }
+
+    });
+
+    // ==========================================================================
+    // LOADING PROCESS
+    // ==========================================================================
+
+    const gradingForm = document.getElementById('gradingForm');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+
+    if (gradingForm) {
+
+        gradingForm.addEventListener('submit', function () {
+
+            loadingOverlay.classList.remove('hidden');
+            loadingOverlay.classList.add('flex');
+
+        });
+
+    }
+
+    // ==========================================================================
+    // SUCCESS TOAST
+    // ==========================================================================
+
+    window.addEventListener('load', () => {
+
+        const hasResult = document.querySelector('table');
+
+        if (hasResult) {
+
+            const toast = document.getElementById('successToast');
+
+            setTimeout(() => {
+
+                toast.classList.remove('translate-x-[150%]');
+
+            }, 500);
+
+            setTimeout(() => {
+
+                toast.classList.add('translate-x-[150%]');
+
+            }, 5000);
+
+        }
+
+    });
+
+</script>
 </body>
 </html>
